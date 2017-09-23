@@ -18,17 +18,42 @@
 # You should have received a copy of the GNU General Public License
 # along with cgss.  If not, see <http://www.gnu.org/licenses/>.
 #
+require 'rbconfig'
 class Cgss < Formula
   desc "Cross-Group Secret Sharing"
   homepage "https://github.com/jkawamoto/cgss"
-  version "0.1.0"
+  version "0.2.0"
 
   if Hardware::CPU.is_64_bit?
-    url "https://github.com/jkawamoto/cgss/releases/download/v0.1.0/cgss_0.1.0_darwin_amd64.zip"
-    sha256 "898e69cc212c308ca1e90dcc8a8c12247b74eec3abd73f39932cf0e3471f368f"
+    case RbConfig::CONFIG['host_os']
+    when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
+      :windows
+    when /darwin|mac os/
+      url "https://github.com/jkawamoto/cgss/releases/download/v0.2.0/cgss_0.2.0_darwin_amd64.zip"
+      sha256 "d41b30f648eca977f38e4ee88b6cf1b84d653242ff6d00f57c3d5bd31686c7e6"
+    when /linux/
+      url "https://github.com/jkawamoto/cgss/releases/download/v0.2.0/cgss_0.2.0_linux_amd64.tar.gz"
+      sha256 "b5c063960d5c9ae39783dc51a5c122ed98a049895124f148daaeac37df05dc27"
+    when /solaris|bsd/
+      :unix
+    else
+      :unknown
+    end
   else
-    url "https://github.com/jkawamoto/cgss/releases/download/v0.1.0/cgss_0.1.0_darwin_386.zip"
-    sha256 "6fa97deae77cea76df4e9cc0daa8b076d5874e51e47d79191cd10058d1f5997e"
+    case RbConfig::CONFIG['host_os']
+    when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
+      :windows
+    when /darwin|mac os/
+      url "https://github.com/jkawamoto/cgss/releases/download/v0.2.0/cgss_0.2.0_darwin_386.zip"
+      sha256 "952c84a86df65801540993c7d83d4fbdde51dbaf7278790db8dc74b2eb0c6d66"
+    when /linux/
+      url "https://github.com/jkawamoto/cgss/releases/download/v0.2.0/cgss_0.2.0_linux_386.tar.gz"
+      sha256 "80e1b63576194dd024dad41df5bc351cb8a43f0c6d683846fbb224fc8205e8e4"
+    when /solaris|bsd/
+      :unix
+    else
+      :unknown
+    end
   end
 
   def install
